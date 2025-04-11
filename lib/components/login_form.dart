@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor_app/components/button.dart';
 import 'package:flutter_doctor_app/utils/config.dart';
 
 class LoginForm extends StatefulWidget {
@@ -60,6 +61,12 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Config.spaceSmall,
           //login button
+          Button(
+            width: double.infinity,
+            title: 'Sing in',
+            onPressed: (){},
+            disable: false,
+          )
         ],
         )
     );
