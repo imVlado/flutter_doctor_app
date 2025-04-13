@@ -64,7 +64,10 @@ class _LoginFormState extends State<LoginForm> {
           Button(
             width: double.infinity,
             title: 'Sing in',
-            onPressed: (){},
+            onPressed: (){
+              //Sing in manual
+              Navigator.of(context).pushNamed('main');
+            },
             disable: false,
           )
         ],

@@ -26,7 +26,7 @@ class SocialButton extends StatelessWidget {
           children: <Widget>[
             Image.asset(
               'assets/$social.png',
-              width: 40,
+              width: 49,
               height: 40,
               ),
               Text(

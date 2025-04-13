@@ -17,6 +17,7 @@ class  _AuthPageState extends State<AuthPage> {
     Config().init(context);
     //build login text field
     return Scaffold(
+      resizeToAvoidBottomInset: false, // <- Esto evita que todo el contenido se desplace
       body:Padding(
         padding: const EdgeInsets.symmetric(
           horizontal:  15,
@@ -98,8 +99,9 @@ class  _AuthPageState extends State<AuthPage> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                       ),
-
-                  )
+                  ),
+                  
+                  
                 ],
               )
             ]
