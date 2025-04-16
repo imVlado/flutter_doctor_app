@@ -41,7 +41,7 @@ class _DoctorCardState extends State<DoctorCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Dr. John Doe',
+                      'Dr. Ricardo Milos',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

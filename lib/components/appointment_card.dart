@@ -108,14 +108,15 @@ class ScheduleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.blueAccent[700],
+        color: Config.primaryColor.shade700,
         borderRadius: BorderRadius.circular(10),
 
       ),
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const <Widget>[
           Icon(Icons.calendar_today,
             color: Colors.white,
