@@ -1,5 +1,8 @@
 import 'package:flutter_doctor_app/main_layout.dart';
 import 'package:flutter_doctor_app/screens/auth_page.dart';
+import 'package:flutter_doctor_app/screens/booking_page.dart';
+import 'package:flutter_doctor_app/screens/doctor_details.dart';
+import 'package:flutter_doctor_app/screens/success_booked.dart';
 import 'package:flutter_doctor_app/utils/config.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +53,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => const AuthPage(),
         //Este es la pagina de inicio luego de la autenticacion
         'main': (context) => const MainLayout(),
+        "doc_details": (context) => const DoctorDetails(),
+        'booking_page': (context) => BookingPage(),
+        'success_booking': (context) => const AppointmentBooked(),
       },
       
     );

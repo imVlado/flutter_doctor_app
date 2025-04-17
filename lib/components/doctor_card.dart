@@ -1,36 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor_app/utils/config.dart';
 
-class DoctorCard extends StatefulWidget {
-  const DoctorCard({super.key});
+class DoctorCard extends StatelessWidget {
+  const DoctorCard({super.key, required this.route});
 
-  @override
-  State<DoctorCard> createState() => _DoctorCardState();
-}
+  final String route;
 
-class _DoctorCardState extends State<DoctorCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 10,
+        vertical: 5,
+        
       ),
-      height: 150,
+      
+      height: 140,
       child: GestureDetector(
         child: Card(
-          elevation: 5,
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
           color: Colors.white,
           child: Row(
             children: [
               SizedBox(
                 width: Config.widthSize * 0.33,
-                child: Image.asset(
-                  "assets/doctor_2.jpg",
-                  fit: BoxFit.cover,
-                  height: 150,
-                  width: Config.widthSize * 0.33,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
                   ),
+                  child: Image.asset(
+                    "assets/doctor_2.jpg",
+                    fit: BoxFit.cover,
+                    height: 150,
+                    width: Config.widthSize * 0.33,
+                    ),
+                ),
               ),
               Flexible(child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -74,7 +81,10 @@ class _DoctorCardState extends State<DoctorCard> {
             ],
           )
         ),
-        onTap:() {},// Redireccion a detalles del doctor
+        onTap:() {
+          //redirect to doctor details
+          Navigator.of(context).pushNamed(route);
+        },// Redireccion a detalles del doctor
       )
     );
   }

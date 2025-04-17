@@ -15,8 +15,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
       width: double.infinity,
       decoration: BoxDecoration(
         color: Config.primaryColor,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
       ),
+
       child : Material(
         color: Colors.transparent,
         child: Padding(
@@ -108,7 +109,7 @@ class ScheduleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Config.primaryColor.shade700,
+        color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(10),
 
       ),
@@ -119,21 +120,27 @@ class ScheduleCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const <Widget>[
           Icon(Icons.calendar_today,
-            color: Colors.white,
-            size: 15
+            color: Config.primaryColor,
+            size: 20
           ),
           SizedBox(width: 5,),
           Text(
             'Monday, 11/28/2025',
-            style:  TextStyle(color: Colors.white,),
+            style:  TextStyle(
+              color: Config.primaryColor, fontWeight: FontWeight.w500),
           ),
           SizedBox(width: 20,),
           Icon(Icons.access_alarm,
-            color: Colors.white,
-            size: 17
+            color: Config.primaryColor,
+            size: 20
           ),
           SizedBox(width: 5,),
-          Flexible(child: Text('2:00 PM', style: TextStyle(color: Colors.white)),)
+          Flexible(child: Text(
+          '2:00 PM', 
+          style: TextStyle(
+            color: Config.primaryColor,
+            fontWeight: FontWeight.w500,
+            )),)
         ],
       ),
     );

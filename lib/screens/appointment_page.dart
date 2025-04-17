@@ -208,8 +208,12 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                     backgroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
+                                      
                                     ),
+
                                   ),
+                                  
+                                  
                                   onPressed: (){},
                                   child: const Text(
                                     'Cancel',
@@ -217,11 +221,14 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                       color: Config.primaryColor,
                                       fontSize: 16,
                                     ),
+                                    
                                   )
+                                  
                                 ),
                               ),
                               const SizedBox(width: 20,),
                               Expanded(
+                                
                                 child: OutlinedButton(
                                   style: OutlinedButton.styleFrom(
                                     backgroundColor: Config.primaryColor,
@@ -264,10 +271,12 @@ class ScheduleCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(10),
-
+        
       ),
+      
       width: double.infinity,
       padding: const EdgeInsets.all(20),
+      
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,

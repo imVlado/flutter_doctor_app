@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Config.spaceSmall,
                 const Text(
-                  'Appointment',
+                  'Appointment Today',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -137,7 +137,9 @@ class _HomePageState extends State<HomePage> {
                 //listado de doctores top
                 Column(
                   children: List.generate(10, (index){
-                    return const DoctorCard();
+                    return DoctorCard(
+                      route: "doc_details",
+                    );
                   }),
                 )
               ],
