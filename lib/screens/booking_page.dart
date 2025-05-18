@@ -62,7 +62,7 @@ class _BookingPageState extends State
                   padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 30),
                   alignment: Alignment.center,
                   child: Text(
-                    'Weekend is not aviable, please select another date',
+                    'Weekend is not available, please select another date',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey,
@@ -111,7 +111,7 @@ class _BookingPageState extends State
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 150),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 120),
                     child: Button(
                       width: double.infinity,
                       title: 'Make Appointment',

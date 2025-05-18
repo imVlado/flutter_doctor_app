@@ -5,7 +5,7 @@ class AppText {
     'welcome_text': 'Welcome',
     'singIn_text': 'Sign in into your account',
     'registered_text': 'Already have an account?',
-    'register_textr': 
+    'register_text': 
       'You can easily sing up, and connect to the Doctors nearby you',
     'singUp_text': 'Don\'t have an account?',
     'social-login' : 'Or continue with social account',

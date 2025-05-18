@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor_app/components/appointment_card.dart';
 import 'package:flutter_doctor_app/components/doctor_card.dart';
+import 'package:flutter_doctor_app/providers/dio_provider.dart';
 import 'package:flutter_doctor_app/utils/config.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Map<String, dynamic> user = {};
+  bool isLoading = true; // Añade un estado de carga
   List<Map<String, dynamic>> medCat = [
     {
       "category":"General",
@@ -38,6 +44,34 @@ class _HomePageState extends State<HomePage> {
       "icon":FontAwesomeIcons.teeth,
     },
   ];
+
+  Future<void> getData() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token') ?? '';
+      
+      if (token.isNotEmpty) {
+        final response = await DioProvider().getUser(token);
+        if (response != null) {
+          setState(() {
+            user = json.decode(response);
+            isLoading = false; // Datos cargados
+          });
+          return;
+        }
+      }
+      setState(() => isLoading = false); // Falló la carga
+    } catch (e) {
+      setState(() => isLoading = false);
+    }
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Config().init(context);
@@ -55,15 +89,15 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Text(
-                      'Gerardo Selva',
-                      style: TextStyle(
+                      user['name'] ?? 'Loading...',
+                      style: const TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       child: CircleAvatar(
                         radius: 35,
                         backgroundImage: AssetImage('assets/profile1.jpg'),

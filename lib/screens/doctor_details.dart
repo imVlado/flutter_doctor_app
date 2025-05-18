@@ -53,7 +53,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             DetailBody(),
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.all(14.0),
+              padding: const EdgeInsets.all(12.0),
               child: Button(
                 width: double.infinity,
                 title: 'Book apointment',
@@ -99,7 +99,7 @@ class AboutDoctor extends StatelessWidget {
           SizedBox(
             width: Config.widthSize * 0.75,
             child: const Text(
-              "UNAM (Universiad Nacional Autonoma de Maxico)",
+              "UNAM (Universidad Nacional Autonoma de Maxico)",
               style: TextStyle(
                 color: Colors.black45,
                 fontSize: 15,
@@ -211,17 +211,17 @@ class InfoCard extends StatelessWidget {
           color: Config.primaryColor,
         ),
         padding: const EdgeInsets.symmetric(
-          vertical: 30,
-          horizontal: 20,
+          vertical: 22,
+          horizontal: 1,
         ),
         child: Column(
           children: <Widget>[
             Text(
               label,
               style: const TextStyle(
-                color: Colors.black,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 10),
@@ -230,7 +230,7 @@ class InfoCard extends StatelessWidget {
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],
