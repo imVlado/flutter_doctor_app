@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor_app/utils/config.dart';
+import 'package:flutter_doctor_app/utils/api_config.dart';
 
 class DoctorCard extends StatelessWidget {
-  const DoctorCard({super.key, required this.route});
+  const DoctorCard({Key? key, required this.route, required this.doctor}) : super(key: key);
 
   final String route;
+  final Map<String, dynamic> doctor; //Recibe los detalles de los doctores
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +33,10 @@ class DoctorCard extends StatelessWidget {
                     topLeft: Radius.circular(15),
                     bottomLeft: Radius.circular(15),
                   ),
-                  child: Image.asset(
-                    "assets/doctor_2.jpg",
-                    fit: BoxFit.cover,
-                    height: 150,
-                    width: Config.widthSize * 0.33,
-                    ),
+                  child: Image.network(
+                    "${ApiConfig.baseUrl}/image/${doctor['doctor_profile'].split('/').last}",
+                    fit: BoxFit.fill
+                  ),
                 ),
               ),
               Flexible(child: Padding(
@@ -48,15 +48,15 @@ class DoctorCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Dr. Ricardo Milos',
-                      style: TextStyle(
+                      "Dr. ${doctor['doctor_name']}",
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      'Dental',
-                      style: TextStyle(
+                      "${doctor['category']}",
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
                       ),
@@ -83,7 +83,7 @@ class DoctorCard extends StatelessWidget {
         ),
         onTap:() {
           //redirect to doctor details
-          Navigator.of(context).pushNamed(route);
+          Navigator.of(context).pushNamed(route, arguments: doctor);
         },// Redireccion a detalles del doctor
       )
     );

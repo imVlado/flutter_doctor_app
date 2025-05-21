@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor_app/Models/booking_datetime_converted.dart';
 import 'package:flutter_doctor_app/components/button.dart';
 import 'package:flutter_doctor_app/components/custom_appbar.dart';
+import 'package:flutter_doctor_app/main.dart';
+import 'package:flutter_doctor_app/providers/dio_provider.dart';
 import 'package:flutter_doctor_app/utils/config.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class BookingPage extends StatefulWidget {
@@ -22,10 +26,23 @@ class _BookingPageState extends State
   bool _isWeekend = false;
   bool _dateSelected = false;
   bool _timeSelected = false;
+  String? token; //obtener el token para insertar el booking date y tiempo en la base de datos
+
+  Future<void> getToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? '';
+  }
+
+  @override
+  void initState() {
+    getToken();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    final doctor = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       appBar: CustomAppbar(
         appTitle: '                Appointment',
@@ -111,12 +128,26 @@ class _BookingPageState extends State
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 120),
+                    padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 55),
                     child: Button(
                       width: double.infinity,
                       title: 'Make Appointment',
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('success_booking');
+                      onPressed: () async{
+                        //convertir date/day/time en string
+                        final getDate = DateConverted.getDate(_currentDay);
+                        final getDay = DateConverted.getDay(_currentDay.weekday);
+                        final getTime = DateConverted.getTime(_currentIndex!);
+
+                        //post usando dio
+                        //Pasa todos los detalles juntos con doctor id y el token
+                        final booking = await DioProvider().bookAppointment(getDate, getDay, getTime, doctor['doctor_id'], token!);
+
+                        //Si la reservación retorna el código 200 entonces redirecciona al success booking page
+                        if(booking == 200) {
+                          MyApp.navigatorKey.currentState!.pushNamed('success_booking');
+                        }
+
+
                       },
                       disable: _timeSelected && _dateSelected ? false : true,
                     ),

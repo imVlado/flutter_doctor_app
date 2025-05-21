@@ -17,7 +17,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Map<String, dynamic> user = {};
-  bool isLoading = true; // Añade un estado de carga
   List<Map<String, dynamic>> medCat = [
     {
       "category":"General",
@@ -46,23 +45,19 @@ class _HomePageState extends State<HomePage> {
   ];
 
   Future<void> getData() async {
-    try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token') ?? '';
-      
-      if (token.isNotEmpty) {
-        final response = await DioProvider().getUser(token);
-        if (response != null) {
-          setState(() {
-            user = json.decode(response);
-            isLoading = false; // Datos cargados
-          });
-          return;
-        }
+    //obtener token de share preferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? '';
+    
+    if (token.isNotEmpty && token != '') {
+      final response = await DioProvider().getUser(token);
+      if (response != null) {
+        setState(() {
+          //Decodificación Json
+          user = json.decode(response);
+          print(user);
+        });
       }
-      setState(() => isLoading = false); // Falló la carga
-    } catch (e) {
-      setState(() => isLoading = false);
     }
   }
 
@@ -76,7 +71,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Config().init(context);
     return Scaffold(
-      body: Padding(
+      //si el usuario está vacío, entonces retorna el indicador de progreso
+      body: user.isEmpty ?
+      const Center(child: CircularProgressIndicator(),)
+      : Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 15,
@@ -170,9 +168,10 @@ class _HomePageState extends State<HomePage> {
                 Config.spaceSmall,
                 //listado de doctores top
                 Column(
-                  children: List.generate(10, (index){
+                  children: List.generate(user['doctor'].length, (index){
                     return DoctorCard(
-                      route: "doc_details",
+                      route: 'doc_details',
+                      doctor: user['doctor'][index],
                     );
                   }),
                 )
