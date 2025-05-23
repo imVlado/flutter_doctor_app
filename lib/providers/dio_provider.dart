@@ -1,12 +1,13 @@
 import "dart:convert";
 import "package:dio/dio.dart";
 import "package:shared_preferences/shared_preferences.dart";
+import 'package:flutter_doctor_app/utils/api_config.dart';
 
 class DioProvider {
 //Obtener Token
   Future<dynamic> getToken(String email, String password) async {
     try {
-      var response = await Dio().post('http://127.0.0.1:8000/api/login',
+      var response = await Dio().post('${ApiConfig.baseUrl}/api/login',
         data: {'email': email, 'password': password});
       
       //Si la peticion es exitosa, retorna el token
@@ -26,7 +27,7 @@ class DioProvider {
   //obtener datos del usuario
   Future<dynamic> getUser(String token) async {
     try {
-      var user = await Dio().get('http://127.0.0.1:8000/api/user',
+      var user = await Dio().get('${ApiConfig.baseUrl}/api/user',
         options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       //si la petición es correcta, se retorna la información del usuario
@@ -41,7 +42,7 @@ class DioProvider {
   //registra un nuevo usuario
   Future<dynamic> registerUser(String username, String email, String password) async {
     try {
-      var user = await Dio().post('http://127.0.0.1:8000/api/register',
+      var user = await Dio().post('${ApiConfig.baseUrl}/api/register',
         data: {'name': username, 'email': email, 'password': password});
 
       //si el registro es correcto, se retorna true
@@ -55,17 +56,33 @@ class DioProvider {
     }
   }
 
-//Guardar detalles de reservacion
+  //Guardar detalles de reservacion
   Future<dynamic> bookAppointment(
     String date, String day, String time, int doctor, String token
   ) async {
     try{
-      var response = await Dio().post('http://127.0.0.1:8000/api/book',
+      var response = await Dio().post('${ApiConfig.baseUrl}/api/book',
       data: {'date': date, 'day': day, 'time': time, 'doctor_id': doctor},
       options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       if(response.statusCode == 200 && response.data != 'data') {
         return response.statusCode;
+      } else {
+        return 'Error';
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
+  //Recupera los detalles de reservacion
+  Future<dynamic> getAppointments(String token) async {
+    try {
+      var response = await Dio().get('${ApiConfig.baseUrl}/api/appointments',
+      options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      if (response.statusCode == 200 && response.data != '') {
+        return json.encode(response.data);
       } else {
         return 'Error';
       }

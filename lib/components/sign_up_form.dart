@@ -82,28 +82,28 @@ class _SignUpFormState extends State<SignUpForm> {
             builder:(context, auth, child) {
               return Button(
                 width: double.infinity,
-                title: 'Sing Up',
+                title: 'Sign Up',
                 onPressed: () async {
-                  print('Intentando registrar usuario...');
+                  //print('Intentando registrar usuario...');
                   final userRegistration = await DioProvider().registerUser(
                     _nameController.text,
                     _emailController.text,
                     _passController.text
                   );
-                  print('Resultado registro: $userRegistration');
+                  //print('Resultado registro: $userRegistration');
                   if(userRegistration is bool && userRegistration){
-                    print('Registro exitoso, intentando login...');
+                    //print('Registro exitoso, intentando login...');
                     final token = await DioProvider().getToken(_emailController.text, _passController.text);
-                    print('Resultado login: $token');
+                    //print('Resultado login: $token');
                     if(token == true){
-                      print('Login exitoso, redireccionando...');
+                      //print('Login exitoso, redireccionando...');
                       auth.loginSuccess();
                       MyApp.navigatorKey.currentState!.pushNamed('main');
                     } else {
-                      print('Login después de registro falló: $token');
+                      //print('Login después de registro falló: $token');
                     }
                   } else {
-                    print('Registro fallido');
+                    //print('Registro fallido');
                   }
                 },
                 disable: false,

@@ -69,7 +69,7 @@ class _LoginFormState extends State<LoginForm> {
             builder:(context, auth, child) {
               return Button(
                 width: double.infinity,
-                title: 'Sing in',
+                title: 'Sign in',
                 onPressed: () async{
                   //Inicio de sesion
                   final token = await DioProvider().getToken(_emailController.text, _passController.text);

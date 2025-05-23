@@ -3,7 +3,7 @@ import 'package:flutter_doctor_app/utils/config.dart';
 import 'package:flutter_doctor_app/utils/api_config.dart';
 
 class DoctorCard extends StatelessWidget {
-  const DoctorCard({Key? key, required this.route, required this.doctor}) : super(key: key);
+  const DoctorCard({super.key, required this.route, required this.doctor});
 
   final String route;
   final Map<String, dynamic> doctor; //Recibe los detalles de los doctores
