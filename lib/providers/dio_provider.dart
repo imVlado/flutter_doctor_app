@@ -65,7 +65,7 @@ class DioProvider {
       data: {'date': date, 'day': day, 'time': time, 'doctor_id': doctor},
       options: Options(headers: {'Authorization': 'Bearer $token'}));
 
-      if(response.statusCode == 200 && response.data != 'data') {
+      if(response.statusCode == 200 && response.data != '') {
         return response.statusCode;
       } else {
         return 'Error';
@@ -79,7 +79,7 @@ class DioProvider {
   Future<dynamic> getAppointments(String token) async {
     try {
       var response = await Dio().get('${ApiConfig.baseUrl}/api/appointments',
-      options: Options(headers: {'Authorization': 'Bearer $token'}));
+        options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       if (response.statusCode == 200 && response.data != '') {
         return json.encode(response.data);
