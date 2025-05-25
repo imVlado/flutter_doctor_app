@@ -6,15 +6,16 @@ import 'package:flutter_doctor_app/providers/dio_provider.dart';
 import 'package:flutter_doctor_app/utils/config.dart';
 import 'package:provider/provider.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool obsecurePass = true;
@@ -25,6 +26,18 @@ class _LoginFormState extends State<LoginForm> {
       child : Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          TextFormField(
+            controller: _nameController,
+            keyboardType: TextInputType.emailAddress,
+            cursorColor: Config.primaryColor,
+            decoration: const InputDecoration(
+              hintText: 'Username',
+              labelText: 'Username',
+              prefixIcon: Icon(Icons.person_outlined),
+              prefixIconColor: Config.primaryColor,
+            ),
+          ),
+          Config.spaceSmall,
           TextFormField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
@@ -69,17 +82,29 @@ class _LoginFormState extends State<LoginForm> {
             builder:(context, auth, child) {
               return Button(
                 width: double.infinity,
-                title: 'Sign in',
-                onPressed: () async{
-                  //Inicio de sesion
-                  final token = await DioProvider().getToken(_emailController.text, _passController.text);
-                  
-                  if(token){
-                    auth.loginSuccess(); //se actualiza el estatus del login
-                    //redirecciona al main
-                    MyApp.navigatorKey.currentState!.pushNamed('main');
+                title: 'Sign Up',
+                onPressed: () async {
+                  //print('Intentando registrar usuario...');
+                  final userRegistration = await DioProvider().registerUser(
+                    _nameController.text,
+                    _emailController.text,
+                    _passController.text
+                  );
+                  //print('Resultado registro: $userRegistration');
+                  if(userRegistration is bool && userRegistration){
+                    //print('Registro exitoso, intentando login...');
+                    final token = await DioProvider().getToken(_emailController.text, _passController.text);
+                    //print('Resultado login: $token');
+                    if(token == true){
+                      //print('Login exitoso, redireccionando...');
+                      auth.loginSuccess();
+                      MyApp.navigatorKey.currentState!.pushNamed('main');
+                    } else {
+                      //print('Login después de registro falló: $token');
                     }
-                  //Navigator.of(context).pushNamed('main');
+                  } else {
+                    //print('Registro fallido');
+                  }
                 },
                 disable: false,
               );
