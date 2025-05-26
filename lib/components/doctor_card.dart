@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doctor_app/utils/config.dart';
 import 'package:flutter_doctor_app/utils/api_config.dart';
 
+
 class DoctorCard extends StatelessWidget {
   const DoctorCard({super.key, required this.route, required this.doctor});
 
@@ -35,7 +36,8 @@ class DoctorCard extends StatelessWidget {
                   ),
                   child: Image.network(
                     "${ApiConfig.baseUrl}/image/${doctor['doctor_profile'].split('/').last}",
-                    fit: BoxFit.fill
+                    fit: BoxFit.cover,
+                    height: 140,
                   ),
                 ),
               ),
@@ -68,8 +70,6 @@ class DoctorCard extends StatelessWidget {
                         Icon(Icons.star_border, color: Colors.yellow,size: 16),
                         Spacer(flex: 1,),
                         Text('4.5'),
-                        Spacer(flex: 1,),
-                        Text('Reviews'),
                         Spacer(flex: 1,),
                         Text('(20)'),
                         Spacer(flex: 7,),

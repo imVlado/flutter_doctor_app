@@ -29,23 +29,6 @@ class _DoctorDetailsState extends State<DoctorDetails> {
           Icons.arrow_back_ios_new,
           color: Colors.white,
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState((){
-                isFav = !isFav;
-              });
-            },
-            icon: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: FaIcon(
-                isFav ? Icons.favorite_rounded : Icons.favorite_outline,
-                color: Colors.red,
-                size: 30,
-              ),
-            ),    
-          )
-        ],
         
       ),
       body: SafeArea(

@@ -90,4 +90,30 @@ class DioProvider {
       return error;
     }
   }
+
+    //Guardar detalles de el rating
+  Future<dynamic> storeReviews(
+    String reviews, double ratings, int id, int doctor, String token) async {
+    try{
+      var response = await Dio().post('http://192.168.1.86:8000/api/reviews',
+      data: {
+        'ratings': ratings,
+        'reviews': reviews,
+        'appointment_id': id,
+        'doc_id': doctor
+        },
+      options: Options(headers: {'Authorization': 'Bearer $token'})
+      );
+      if(response.statusCode == 200 && response.data != '') {
+        return response.statusCode;
+      } else {
+        return 'Error';
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
+  
+
 }

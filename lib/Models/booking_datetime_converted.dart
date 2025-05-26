@@ -14,11 +14,11 @@ class DateConverted {
       case 2:
       return 'Tuesday';
       case 3:
-      return '';
-      case 4:
       return 'Wednesday';
-      case 5:
+      case 4:
       return 'Thursday';
+      case 5:
+      return 'Friday';
       case 6:
       return 'Saturday';
       case 7:

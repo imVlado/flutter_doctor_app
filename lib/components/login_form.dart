@@ -18,11 +18,22 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool obsecurePass = true;
+  
+  // Función para mostrar mensaje de error
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child : Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           TextFormField(
@@ -42,10 +53,10 @@ class _LoginFormState extends State<LoginForm> {
             keyboardType: TextInputType.visiblePassword,
             cursorColor: Config.primaryColor,
             obscureText: obsecurePass,
-            decoration:  InputDecoration(
+            decoration: InputDecoration(
               hintText: 'Password',
               labelText: 'Password',
-              prefixIcon: Icon(Icons.lock_outline),
+              prefixIcon: const Icon(Icons.lock_outline),
               prefixIconColor: Config.primaryColor,
               suffixIcon: IconButton(
                 onPressed: () {
@@ -53,33 +64,44 @@ class _LoginFormState extends State<LoginForm> {
                     obsecurePass = !obsecurePass;
                   });
                 },
-                icon:  obsecurePass
+                icon: obsecurePass
                   ? const Icon(
                     Icons.visibility_off_outlined,
-                  color: Colors.black38,)
+                    color: Colors.black38,)
                   : const Icon(
-                    Icons.visibility_off_outlined,
+                    Icons.visibility_outlined,  // Corregí este icono
                     color: Config.primaryColor,)
               ),
             ),
           ),
           Config.spaceSmall,
-          //login button
           Consumer<AuthModel>(
-            builder:(context, auth, child) {
+            builder: (context, auth, child) {
               return Button(
                 width: double.infinity,
                 title: 'Sign in',
-                onPressed: () async{
-                  //Inicio de sesion
-                  final token = await DioProvider().getToken(_emailController.text, _passController.text);
-                  
-                  if(token){
-                    auth.loginSuccess(); //se actualiza el estatus del login
-                    //redirecciona al main
-                    MyApp.navigatorKey.currentState!.pushNamed('main');
+                onPressed: () async {
+                  // Verificar que los campos no estén vacíos
+                  if (_emailController.text.isEmpty || _passController.text.isEmpty) {
+                    _showErrorSnackBar('Por favor ingresa email y contraseña');
+                    return;
+                  }
+
+                  try {
+                    final token = await DioProvider().getToken(
+                      _emailController.text, 
+                      _passController.text
+                    );
+
+                    if (token == true) {
+                      auth.loginSuccess();
+                      MyApp.navigatorKey.currentState?.pushNamed('main');
+                    } else {
+                      _showErrorSnackBar('Credenciales incorrectas');
                     }
-                  //Navigator.of(context).pushNamed('main');
+                  } catch (e) {
+                    _showErrorSnackBar('Error al iniciar sesión');
+                  }
                 },
                 disable: false,
               );

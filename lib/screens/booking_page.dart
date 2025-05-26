@@ -190,7 +190,7 @@ class _BookingPageState extends State
           _dateSelected = true;
 
           //checa si es fin de semana
-          if(selectedDay.weekday == 6 || selectedDay.weekday == 7){
+          if(selectedDay.weekday == 6 || selectedDay.weekday == 5){
             _isWeekend = true;
             _timeSelected = false;
             _currentIndex= null;

@@ -68,6 +68,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token'); // Elimina el token almacenado
+    Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false); // Redirige al login
+  }
+
   @override
   void initState() {
     getData();
@@ -102,11 +108,23 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(
-                      child: CircleAvatar(
-                        radius: 35,
-                        backgroundImage: AssetImage('assets/profile1.jpg'),
-                      ),
+                    Row(
+                      children: [
+                        const SizedBox(width: 10),
+                        IconButton(
+                          icon: const Icon(Icons.logout),
+                          onPressed: logout,
+                          tooltip: 'Logout',
+                        ),
+                        const SizedBox(width: 10),
+                        const SizedBox(
+                          child: CircleAvatar(
+                            radius: 35,
+                            backgroundImage: AssetImage('assets/profile1.png'),
+                          ),
+                        ),
+                        
+                      ],
                     )
                   ],
                 ),
@@ -130,7 +148,6 @@ class _HomePageState extends State<HomePage> {
                         color: Config.primaryColor,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
@@ -148,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                               )
                             ],
                           )
-                          )
+                        )
                       );
                     })
                   ),

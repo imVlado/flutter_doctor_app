@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor_app/main.dart';
+import 'package:flutter_doctor_app/providers/dio_provider.dart';
 import 'package:flutter_doctor_app/utils/api_config.dart';
 import 'package:flutter_doctor_app/utils/config.dart';
+import 'package:rating_dialog/rating_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentCard extends StatefulWidget {
   const AppointmentCard({super.key, required this.doctor, required this.color});
@@ -87,6 +91,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  
+
+
                   child: const Text(
                     'Completed',
                     style: TextStyle(
@@ -94,8 +101,54 @@ class _AppointmentCardState extends State<AppointmentCard> {
                       fontSize: 16,
                     ),
                   ),
-                  onPressed: () {
-                    
+                  onPressed: () async{
+                    showDialog(
+                      context: context,
+                      builder: (context){
+                        return RatingDialog(
+                          initialRating: 1.0,
+                          title: const Text('Rate the doctor',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                            ),
+                          message: const Text('Please help us rating our doctor',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal),
+                            ),
+                          image: const FlutterLogo(size: 100,),
+                          submitButtonText: 'Submit',
+                          
+                          commentHint: 'Your review',
+                          
+                          onSubmitted: (response) async{
+                            final SharedPreferences prefs=
+                              await SharedPreferences.getInstance();
+                            final token =
+                              prefs.getString('token') ?? '';
+
+                              final rating = await DioProvider()
+                                .storeReviews(
+                                  response.comment,
+                                  response.rating,
+                                  widget.doctor['appointments']['id'],
+                                  widget.doctor['doc_id'],
+                                  token
+                                );
+
+                                // verifica si la respuesta es correcta
+                                if(rating == 200 && rating != '') {
+                                  MyApp.navigatorKey.currentState!
+                                    .pushNamed('main');
+                                }
+                              
+                          },
+                          
+                      );
+                    });
                   },
                 ),
                 ),
